@@ -37,9 +37,11 @@ export default function App() {
   };
   // checkn the length
   useEffect(() => {
-    if (Object.keys(formValues).length === 0 && isSubmit) {
+    if (isSubmit && Object.keys(errorFormValues).length === 0) {
+      // API Call
+      console.log(formValues);
     }
-  }, []);
+  }, [isSubmit, errorFormValues]);
   // validation
   const validate = (values) => {
     const errors = {};
@@ -52,7 +54,9 @@ export default function App() {
     if (!values.phonenumber) {
       errors.phonenumber = "phone number is required!";
     } else if (!Numberregex.test(values.phonenumber)) {
-      errors.phonenumber = "this not a number!";
+      errors.phonenumber = "number only!";
+    } else if (values.phonenumber < 10) {
+      errors.phonenumber = "not valid";
     }
     if (!values.email) {
       errors.email = "email is required!";
@@ -78,7 +82,7 @@ export default function App() {
       <h1 className="text-center">Form</h1>
 
       <div className="row justify-content-center">
-        <div className="col-lg-4">
+        <div className="col-lg-4 col-md-7">
           <form
             onSubmit={handleSubmit}
             className="d-flex flex-column gap-2 mt-5 p-4 border rounded shadow-lg"
