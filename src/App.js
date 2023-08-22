@@ -1,5 +1,14 @@
 import { useState, useEffect } from "react";
+import Select from "react-select";
 export default function App() {
+  //state List
+  const stateList = ["TamilNadu", "Karnataka", "Kerla", "Andra"];
+  // skills List
+  const skillsList = [
+    { value: "react.js", label: "React" },
+    { value: "Node.js", label: "Node" },
+    { value: "vanilla.js", label: "Vanilla" },
+  ];
   // Initial values
   const initialValues = {
     username: "",
@@ -7,16 +16,21 @@ export default function App() {
     email: "",
     password: "",
     confirmpassword: "",
+    state: "",
+    skills: [],
   };
   // form values set an initial state
   const [formValues, setFormValues] = useState(initialValues);
+  // console.log(formValues);
   // form error handling
   const [errorFormValues, setErrorFormValues] = useState({});
   // form submit or not submit
   const [isSubmit, setIsSubmit] = useState(false);
   // form handle change
   const handleChange = (e) => {
+    console.log(e);
     const { name, value } = e.target;
+
     setFormValues((prevValues) => ({
       ...prevValues,
       [name]: value,
@@ -69,6 +83,12 @@ export default function App() {
     if (!values.confirmpassword) {
       errors.confirmpassword = "confirm password is required!";
     }
+    if (!values.state) {
+      errors.state = "state is required!";
+    }
+    if (!values.skills) {
+      errors.skills = "skills is required!";
+    }
     return errors;
   };
   const validateField = (fieldName, value) => {
@@ -77,6 +97,7 @@ export default function App() {
     }
     return "";
   };
+
   return (
     <div className="container">
       <h1 className="text-center">Form</h1>
@@ -150,6 +171,36 @@ export default function App() {
               <span className="text-danger">
                 {errorFormValues.confirmpassword}
               </span>
+            </div>
+            {/*Skills*/}
+            <div className="text-center d-flex flex-column">
+              <label className="text-start">Skills</label>
+              <Select
+                isMulti
+                name="skills"
+                options={skillsList}
+                // value={formValues.skills}
+                onChange={handleChange}
+              />
+              <span className="text-danger">{errorFormValues.skills}</span>
+            </div>
+            {/*State */}
+            <div className="text-center d-flex flex-column">
+              <label className="text-start">State</label>
+              <select
+                className="form-control text-center"
+                name="state"
+                type="text"
+                value={formValues.state}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              >
+                <option>--select--</option>
+                {stateList?.map((item) => (
+                  <option>{item}</option>
+                ))}
+              </select>
+              <span className="text-danger">{errorFormValues.state}</span>
             </div>
             {/* Submit */}
             <div className="text-center d-flex flex-column">
