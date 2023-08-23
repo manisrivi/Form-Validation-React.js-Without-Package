@@ -21,27 +21,33 @@ export default function App() {
   };
   // form values set an initial state
   const [formValues, setFormValues] = useState(initialValues);
-  // console.log(formValues);
+
   // form error handling
   const [errorFormValues, setErrorFormValues] = useState({});
   // form submit or not submit
   const [isSubmit, setIsSubmit] = useState(false);
   // form handle change
   const handleChange = (e) => {
-    console.log(e);
     const { name, value } = e.target;
-
     setFormValues((prevValues) => ({
       ...prevValues,
       [name]: value,
     }));
     setIsSubmit(true);
   };
+  // form multiselect handle change
+  const handleChangeMulti = (item) => {
+    setFormValues((prev) => ({ ...prev, skills: item }));
+    setIsSubmit(true);
+  };
+
   // form submit
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrorFormValues(validate(formValues));
   };
+
+  // form handle blur
   const handleBlur = (e) => {
     const { name } = e.target;
     setErrorFormValues((prevErrors) => ({
@@ -49,6 +55,9 @@ export default function App() {
       [name]: validateField(name, formValues[name]),
     }));
   };
+
+  // form handle blur multi
+  const handleBlurMulti = (e) => {};
   // checkn the length
   useEffect(() => {
     if (isSubmit && Object.keys(errorFormValues).length === 0) {
@@ -86,7 +95,8 @@ export default function App() {
     if (!values.state) {
       errors.state = "state is required!";
     }
-    if (!values.skills) {
+    console.log(values.skills.length);
+    if (values.skills.length <= 0) {
       errors.skills = "skills is required!";
     }
     return errors;
@@ -120,7 +130,7 @@ export default function App() {
               />
               <span className="text-danger">{errorFormValues.username}</span>
             </div>
-            {/* Username */}
+            {/* Phone number */}
             <div className="text-center d-flex flex-column">
               <label className="text-start">Phone number</label>
               <input
@@ -179,8 +189,8 @@ export default function App() {
                 isMulti
                 name="skills"
                 options={skillsList}
-                // value={formValues.skills}
-                onChange={handleChange}
+                onChange={handleChangeMulti}
+                value={formValues.skills}
               />
               <span className="text-danger">{errorFormValues.skills}</span>
             </div>
