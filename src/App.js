@@ -9,6 +9,7 @@ export default function App() {
     { value: "Node.js", label: "Node" },
     { value: "vanilla.js", label: "Vanilla" },
   ];
+
   // Initial values
   const initialValues = {
     username: "",
@@ -41,6 +42,7 @@ export default function App() {
     setIsSubmit(true);
   };
 
+
   // form submit
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -56,8 +58,6 @@ export default function App() {
     }));
   };
 
-  // form handle blur multi
-  const handleBlurMulti = (e) => {};
   // checkn the length
   useEffect(() => {
     if (isSubmit && Object.keys(errorFormValues).length === 0) {
@@ -95,7 +95,6 @@ export default function App() {
     if (!values.state) {
       errors.state = "state is required!";
     }
-    console.log(values.skills.length);
     if (values.skills.length <= 0) {
       errors.skills = "skills is required!";
     }
@@ -194,6 +193,7 @@ export default function App() {
               />
               <span className="text-danger">{errorFormValues.skills}</span>
             </div>
+
             {/*State */}
             <div className="text-center d-flex flex-column">
               <label className="text-start">State</label>
